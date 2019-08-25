@@ -72,13 +72,48 @@ class StringStreamTest extends TestCase
     public function testWriting(): void
     {
         $stringStream = new StringStream('hello world');
-        $fullString = 'hello world, isn\'t it a lovely day';
-
         static::assertTrue($stringStream->isWritable());
+
+        // Can we write at the end of a string?
+        $stringStream->seek(0, SEEK_END);
         $bytesWritten = $stringStream->write(', isn\'t it a lovely day');
+        $fullString = 'hello world, isn\'t it a lovely day';
         static::assertSame(strlen($fullString), $stringStream->getSize());
         static::assertSame($fullString, (string) $stringStream);
         static::assertSame(strlen(', isn\'t it a lovely day'), $bytesWritten);
+
+        // Can we write at the start of a string?
+        $stringStream->seek(0);
+        $bytesWritten = $stringStream->write('Oh! ');
+        $fullString = 'Oh! hello world, isn\'t it a lovely day';
+        static::assertSame(strlen($fullString), $stringStream->getSize());
+        static::assertSame($fullString, (string) $stringStream);
+        static::assertSame(4, $bytesWritten);
+
+        // Can we write in the middle of the string to fix the capitalization?
+        $stringStream->seek(4);
+        $bytesWritten = $stringStream->write('H');
+        $fullString = 'Oh! Hello world, isn\'t it a lovely day';
+        static::assertSame(strlen($fullString), $stringStream->getSize());
+        static::assertSame($fullString, (string) $stringStream);
+        static::assertSame(1, $bytesWritten);
+
+        // Can we make a multi-word replacement? We'll replace 2 bytes with 0x7F (DEL) which in a
+        // real world application could be filtered out as deleted bytes.
+        $stringStream->seek(4);
+        $bytesWritten = $stringStream->write('Hey' . chr(127) . chr(127));
+        $fullString = 'Oh! Hey' . chr(127) . chr(127) . ' world, isn\'t it a lovely day';
+        static::assertSame(strlen($fullString), $stringStream->getSize());
+        static::assertSame($fullString, (string) $stringStream);
+        static::assertSame(5, $bytesWritten);
+
+        // Finally, can we replace and append?
+        $stringStream->seek(35);
+        $bytesWritten = $stringStream->write('evening?');
+        $fullString = 'Oh! Hey' . chr(127) . chr(127) . ' world, isn\'t it a lovely evening?';
+        static::assertSame(strlen($fullString), $stringStream->getSize());
+        static::assertSame($fullString, (string) $stringStream);
+        static::assertSame(8, $bytesWritten);
     }
 
     public function testMiscFunctions(): void

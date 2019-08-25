@@ -175,8 +175,29 @@ class StringStream implements StreamInterface
      */
     public function write($string): int
     {
-        $this->data   .= $string;
-        $this->length += strlen($string);
+        // If we're at the end of the data, we can just append.
+        if ($this->eof()) {
+            $this->length += strlen($string);
+            $this->data   .= $string;
+            return strlen($string);
+        }
+
+        // If we're at the start of the data, we can just prepend.
+        if ($this->pointer === 0) {
+            $this->length += strlen($string);
+            $this->data   = $string . $this->data;
+            return strlen($string);
+        }
+
+        // If we're purely overwriting, we can do that with substr.
+        // If we have more to write than we can fit, we'll just substr the start and then concatenate the rest.
+        $this->data =
+            substr($this->data, 0, $this->pointer) .
+            $string .
+            substr($this->data, $this->pointer + strlen($string));
+
+        // Since we can do both overwriting and appending here, we'll just recalculate:
+        $this->length = strlen($this->data);
 
         return strlen($string);
     }
