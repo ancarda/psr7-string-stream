@@ -177,15 +177,9 @@ class StringStream implements StreamInterface
     {
         // If we're at the end of the data, we can just append.
         if ($this->eof()) {
-            $this->length += strlen($string);
-            $this->data   .= $string;
-            return strlen($string);
-        }
-
-        // If we're at the start of the data, we can just prepend.
-        if ($this->pointer === 0) {
-            $this->length += strlen($string);
-            $this->data   = $string . $this->data;
+            $this->length  += strlen($string);
+            $this->data    .= $string;
+            $this->pointer = $this->length;
             return strlen($string);
         }
 
@@ -197,8 +191,8 @@ class StringStream implements StreamInterface
             substr($this->data, $this->pointer + strlen($string));
 
         // Since we can do both overwriting and appending here, we'll just recalculate:
-        $this->length = strlen($this->data);
-
+        $this->length  = strlen($this->data);
+        $this->pointer = $this->length;
         return strlen($string);
     }
 

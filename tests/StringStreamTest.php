@@ -82,38 +82,40 @@ class StringStreamTest extends TestCase
         static::assertSame($fullString, (string) $stringStream);
         static::assertSame(strlen(', isn\'t it a lovely day'), $bytesWritten);
 
-        // Can we write at the start of a string?
+        // Can we overwrite at the start of the string to fix the capitalization?
         $stringStream->seek(0);
-        $bytesWritten = $stringStream->write('Oh! ');
-        $fullString = 'Oh! hello world, isn\'t it a lovely day';
-        static::assertSame(strlen($fullString), $stringStream->getSize());
-        static::assertSame($fullString, (string) $stringStream);
-        static::assertSame(4, $bytesWritten);
-
-        // Can we write in the middle of the string to fix the capitalization?
-        $stringStream->seek(4);
         $bytesWritten = $stringStream->write('H');
-        $fullString = 'Oh! Hello world, isn\'t it a lovely day';
+        $fullString = 'Hello world, isn\'t it a lovely day';
         static::assertSame(strlen($fullString), $stringStream->getSize());
         static::assertSame($fullString, (string) $stringStream);
         static::assertSame(1, $bytesWritten);
 
         // Can we make a multi-word replacement? We'll replace 2 bytes with 0x7F (DEL) which in a
         // real world application could be filtered out as deleted bytes.
-        $stringStream->seek(4);
+        $stringStream->seek(0);
         $bytesWritten = $stringStream->write('Hey' . chr(127) . chr(127));
-        $fullString = 'Oh! Hey' . chr(127) . chr(127) . ' world, isn\'t it a lovely day';
+        $fullString = 'Hey' . chr(127) . chr(127) . ' world, isn\'t it a lovely day';
         static::assertSame(strlen($fullString), $stringStream->getSize());
         static::assertSame($fullString, (string) $stringStream);
         static::assertSame(5, $bytesWritten);
 
         // Finally, can we replace and append?
-        $stringStream->seek(35);
+        $stringStream->seek(31);
         $bytesWritten = $stringStream->write('evening?');
-        $fullString = 'Oh! Hey' . chr(127) . chr(127) . ' world, isn\'t it a lovely evening?';
+        $fullString = 'Hey' . chr(127) . chr(127) . ' world, isn\'t it a lovely evening?';
         static::assertSame(strlen($fullString), $stringStream->getSize());
         static::assertSame($fullString, (string) $stringStream);
         static::assertSame(8, $bytesWritten);
+    }
+
+    public function testOverwriteWorksCorrectly(): void
+    {
+        $stream = new StringStream('');
+        $stream->write('abc');
+        $stream->write('def');
+        $stream->rewind();
+        $stream->write('XXX');
+        static::assertSame('XXXdef', (string) $stream);
     }
 
     public function testMiscFunctions(): void
