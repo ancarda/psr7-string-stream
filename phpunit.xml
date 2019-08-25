@@ -24,6 +24,6 @@
     <logging>
         <log type="coverage-text"   target="php://stdout" showOnlySummary="true"/>
         <log type="coverage-html"   target="coverage"/>
-        <log type="coverage-clover" target="coverage/coverage.xml"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
 </phpunit>
