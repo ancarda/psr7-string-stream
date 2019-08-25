@@ -1,0 +1,21 @@
+sudo: false
+
+language: php
+
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+
+before_script:
+  - composer diagnose
+  - composer install --no-interaction
+
+script:
+  - composer check-style
+  - composer analyze
+  - composer test
+  - composer check-tests
+
+after_script:
+  - vendor/bin/php-coveralls
