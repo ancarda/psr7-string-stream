@@ -5,7 +5,7 @@ _Minimal string based PSR-7 StreamInterface implementation_
 [![Latest Stable Version](https://poser.pugx.org/ancarda/psr7-string-stream/v/stable)](https://packagist.org/packages/ancarda/psr7-string-stream)
 [![Total Downloads](https://poser.pugx.org/ancarda/psr7-string-stream/downloads)](https://packagist.org/packages/ancarda/psr7-string-stream)
 [![License](https://poser.pugx.org/ancarda/psr7-string-stream/license)](https://choosealicense.com/licenses/mit/)
-[![Build Status](https://travis-ci.org/ancarda/psr7-string-stream.svg?branch=master)](https://travis-ci.org/ancarda/psr7-string-stream)
+[![Build Status](https://travis-ci.com/ancarda/psr7-string-stream.svg?branch=master)](https://travis-ci.com/ancarda/psr7-string-stream)
 [![Coverage Status](https://coveralls.io/repos/github/ancarda/psr7-string-stream/badge.svg?branch=master)](https://coveralls.io/github/ancarda/psr7-string-stream?branch=master)
 
 PSR-7 String Stream was born out of frustration working with PSR-7's
