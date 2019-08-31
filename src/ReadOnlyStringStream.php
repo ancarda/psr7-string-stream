@@ -30,6 +30,6 @@ class ReadOnlyStringStream extends StringStream
      */
     public function write($string): int
     {
-        throw new RuntimeException('Cannot write(): Read Only Stream');
+        throw new IllegalOperationException(__FUNCTION__, 'read-only');
     }
 }

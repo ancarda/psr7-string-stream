@@ -12,8 +12,8 @@ use RuntimeException;
  */
 class StringStream implements StreamInterface
 {
-    /** @var string */
-    private $data = '';
+    /** @var string|null */
+    private $data;
 
     /** @var int */
     private $pointer = 0;
@@ -46,7 +46,7 @@ class StringStream implements StreamInterface
      */
     public function __toString(): string
     {
-        return $this->data;
+        return $this->data === null ? '' : $this->data;
     }
 
     /**
@@ -56,7 +56,7 @@ class StringStream implements StreamInterface
      */
     public function close(): void
     {
-        $this->data    = '';
+        $this->data    = null;
         $this->pointer = 0;
         $this->length  = 0;
     }
@@ -70,6 +70,10 @@ class StringStream implements StreamInterface
      */
     public function detach()
     {
+        $this->data    = null;
+        $this->pointer = 0;
+        $this->length  = 0;
+
         return null;
     }
 
@@ -91,6 +95,10 @@ class StringStream implements StreamInterface
      */
     public function tell(): int
     {
+        if ($this->data === null) {
+            throw new StreamUnusableException(__FUNCTION__);
+        }
+
         return $this->pointer;
     }
 
@@ -111,7 +119,7 @@ class StringStream implements StreamInterface
      */
     public function isSeekable(): bool
     {
-        return true;
+        return $this->data !== null;
     }
 
     /**
@@ -128,6 +136,10 @@ class StringStream implements StreamInterface
      */
     public function seek($offset, $whence = SEEK_SET): void
     {
+        if ($this->data === null) {
+            throw new StreamUnusableException(__FUNCTION__);
+        }
+
         switch ($whence) {
             case SEEK_SET:
                 $this->pointer = $offset;
@@ -153,6 +165,10 @@ class StringStream implements StreamInterface
      */
     public function rewind(): void
     {
+        if ($this->data === null) {
+            throw new StreamUnusableException(__FUNCTION__);
+        }
+
         $this->pointer = 0;
     }
 
@@ -163,7 +179,7 @@ class StringStream implements StreamInterface
      */
     public function isWritable(): bool
     {
-        return true;
+        return $this->data !== null;
     }
 
     /**
@@ -175,6 +191,10 @@ class StringStream implements StreamInterface
      */
     public function write($string): int
     {
+        if ($this->data === null) {
+            throw new StreamUnusableException(__FUNCTION__);
+        }
+
         // If we're at the end of the data, we can just append.
         if ($this->eof()) {
             $this->length  += strlen($string);
@@ -203,7 +223,7 @@ class StringStream implements StreamInterface
      */
     public function isReadable(): bool
     {
-        return true;
+        return $this->data !== null;
     }
 
     /**
@@ -218,6 +238,10 @@ class StringStream implements StreamInterface
      */
     public function read($length): string
     {
+        if ($this->data === null) {
+            throw new StreamUnusableException(__FUNCTION__);
+        }
+
         $slice = substr($this->data, $this->pointer, $length);
         $this->pointer = $this->pointer + $length;
         return $slice;
@@ -232,6 +256,10 @@ class StringStream implements StreamInterface
      */
     public function getContents(): string
     {
+        if ($this->data === null) {
+            throw new StreamUnusableException(__FUNCTION__);
+        }
+
         return $this->read($this->length - $this->pointer);
     }
 
