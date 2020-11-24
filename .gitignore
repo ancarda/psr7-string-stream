@@ -1,5 +1,0 @@
-build/logs/
-vendor/
-coverage/
-.phpunit.result.cache
-infection.log
