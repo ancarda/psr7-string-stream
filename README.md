@@ -5,6 +5,7 @@ _Minimal string based PSR-7 StreamInterface implementation_
 [![License](https://img.shields.io/badge/license-MIT-teal)](https://choosealicense.com/licenses/mit/)
 [![Latest Stable Version](https://poser.pugx.org/ancarda/psr7-string-stream/v/stable)](https://packagist.org/packages/ancarda/psr7-string-stream)
 [![Total Downloads](https://poser.pugx.org/ancarda/psr7-string-stream/downloads)](https://packagist.org/packages/ancarda/psr7-string-stream)
+[![builds.sr.ht status](https://builds.sr.ht/~ancarda/psr7-string-stream.svg)](https://builds.sr.ht/~ancarda/psr7-string-stream?)
 
 PSR-7 String Stream was born out of frustration working with PSR-7's
 StreamInterface. Most implementations typically use PHP Streams, which aren't
