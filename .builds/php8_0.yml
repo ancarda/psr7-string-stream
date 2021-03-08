@@ -30,4 +30,7 @@ tasks:
   - analyze:     cd $DIR && composer run-script analyze
   - check-style: cd $DIR && composer run-script check-style
   - test:        cd $DIR && composer run-script test
-  - check-tests: cd $DIR && composer run-script check-tests
+
+  # coverage is not yet working on PHP 8.0
+  # See: https://builds.sr.ht/~ancarda/job/453338#task-check-tests
+  # - check-tests: cd $DIR && composer run-script check-tests
