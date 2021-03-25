@@ -26,4 +26,5 @@ tasks:
   - analyze:     cd $DIR && composer run-script analyze
   - check-style: cd $DIR && composer run-script check-style
   - test:        cd $DIR && composer run-script test
+  - check-cov:   cd $DIR && composer run-script check-coverage
   - check-tests: cd $DIR && composer run-script check-tests
