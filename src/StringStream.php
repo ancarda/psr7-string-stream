@@ -243,7 +243,7 @@ class StringStream implements StreamInterface
         }
 
         $slice = substr($this->data, $this->pointer, $length);
-        $this->pointer = $this->pointer + $length;
+        $this->pointer = $this->pointer + strlen($slice);
         return $slice;
     }
 
