@@ -207,4 +207,13 @@ class StringStreamTest extends TestCase
         $this->expectExceptionMessage("You cannot call `getContents' on this stream because it's closed.");
         $stringStream->getContents();
     }
+
+    public function testEOFAfterOverReading(): void
+    {
+        $stringStream = new StringStream('hello world');
+        self::assertFalse($stringStream->eof());
+        $text = $stringStream->read(1048576);
+        self::assertSame('hello world', $text);
+        self::assertTrue($stringStream->eof());
+    }
 }

@@ -109,7 +109,7 @@ class StringStream implements StreamInterface
      */
     public function eof(): bool
     {
-        return $this->pointer === $this->length;
+        return $this->pointer >= $this->length;
     }
 
     /**
