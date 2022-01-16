@@ -1,0 +1,30 @@
+---
+image: debian/sid
+
+sources:
+  - https://git.sr.ht/~ancarda/psr7-string-stream
+
+packages:
+  - php8.1-cli
+  - composer
+
+  # some dev tools use XML config files
+  - php8.1-xml
+
+  # for code coverage (phpunit and infection)
+  - php-xdebug
+
+  # for composer
+  - unzip
+
+environment:
+  DIR: psr7-string-stream
+  XDEBUG_MODE: coverage
+
+tasks:
+  - composer:    cd $DIR && composer install
+  - analyze:     cd $DIR && composer run-script analyze
+  - check-style: cd $DIR && composer run-script check-style
+  - test:        cd $DIR && composer run-script test
+  - check-cov:   cd $DIR && composer run-script check-coverage
+  - check-tests: cd $DIR && composer run-script check-tests
