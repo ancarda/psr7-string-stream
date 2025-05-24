@@ -1,15 +1,15 @@
 ---
-image: debian/sid
+image: debian/bookworm
 
 sources:
   - https://git.sr.ht/~ancarda/psr7-string-stream
 
 packages:
-  - php8.1-cli
+  - php8.2-cli
   - composer
 
   # some dev tools use XML config files
-  - php8.1-xml
+  - php8.2-xml
 
   # for code coverage (phpunit and infection)
   - php-xdebug

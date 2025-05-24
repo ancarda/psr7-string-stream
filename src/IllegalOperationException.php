@@ -23,7 +23,7 @@ class IllegalOperationException extends RuntimeException
      *   This should complete the sentence "This stream is X", e.g. "This stream is read-only".
      * @param Throwable|null $previous
      */
-    public function __construct(string $operation, string $justification, Throwable $previous = null)
+    public function __construct(string $operation, string $justification, ?Throwable $previous = null)
     {
         $this->operation = $operation;
 

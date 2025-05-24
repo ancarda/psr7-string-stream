@@ -1,5 +1,0 @@
-#!/bin/sh
-curl -X POST \
-	-H 'content-type:application/json' \
-	"https://packagist.org/api/update-package?username=${1}&apiToken=$(cat $3)" \
-	--data "{\"repository\":{\"url\":\"https://packagist.org/packages/${1}/${2}\"}}"

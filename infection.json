@@ -9,12 +9,6 @@
         "text": "var/infection.log"
     },
     "mutators": {
-        "@default": true,
-        "OneZeroInteger": {
-            "ignore": [
-                "Ancarda\\Psr7\\StringStream\\StringStream::close",
-                "Ancarda\\Psr7\\StringStream\\StringStream::detach"
-            ]
-        }
+        "@default": true
     }
 }

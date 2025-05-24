@@ -15,7 +15,7 @@ final class StreamUnusableException extends IllegalOperationException
      * @param string $operation
      * @param Throwable|null $previous
      */
-    public function __construct(string $operation, Throwable $previous = null)
+    public function __construct(string $operation, ?Throwable $previous = null)
     {
         parent::__construct($operation, 'closed', $previous);
     }
